@@ -10,9 +10,16 @@ function ClientProjectsPage() {
 
   function loadProjectHandler() {
     // load data...
+
+    // programmatic/imperative navigation
+    // way 1
+    //router.push('clients/max/projecta');
+    //router.replace('clients/max/projecta'); // to replace current page, so cant go back after navigation
+
+    // way 2
     router.push({
-      pathname: '/clients/[id]/[clientprojectid]',
-      query: { id: 'max', clientprojectid: 'projecta' },
+      pathname: '/clients/[id]/[clientprojectid]', // we can use any placeholder names
+      query: { id: 'max', clientprojectid: 'projecta' }, // values must match placeholder names
     });
   }
 
