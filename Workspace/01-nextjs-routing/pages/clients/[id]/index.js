@@ -1,3 +1,6 @@
+// this file will be served when request reaches ourdomain.com/clients/{id}/
+// [] in the file name tells nextjs that this will be dynamic page
+// so that it should be loaded for different values in your path.
 import { useRouter } from 'next/router';
 
 function ClientProjectsPage() {

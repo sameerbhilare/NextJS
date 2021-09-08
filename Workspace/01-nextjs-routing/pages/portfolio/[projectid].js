@@ -7,6 +7,10 @@
 import { useRouter } from 'next/router';
 
 function PortfolioProjectPage() {
+  /*
+    With nextjs' useRouter, we get access to methods for programatic nagivation
+    and also for getting values in the URL.
+  */
   const router = useRouter();
 
   console.log(router.pathname);
