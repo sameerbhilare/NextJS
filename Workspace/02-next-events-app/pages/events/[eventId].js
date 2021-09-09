@@ -8,7 +8,6 @@ const EventDetailPage = () => {
   const router = useRouter();
 
   const eventId = router.query.eventId;
-  console.log(eventId);
   const event = getEventById(eventId);
 
   if (!event) {
