@@ -3,8 +3,13 @@ import useSWR from 'swr';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const LastSalesPage = () => {
-  const [sales, setSales] = useState();
+const LastSalesPage = (props) => {
+  /*
+    IMP =>
+    props.sales are the sales which are used for the initial state here.
+    They then can and will be overwritten by the result of the client side data fetching due to useSWR.
+    */
+  const [sales, setSales] = useState(props.sales); // initial sales state
   //   const [isLoading, setIsLoading] = useState(false);
 
   const { data, error } = useSWR(
@@ -53,7 +58,7 @@ const LastSalesPage = () => {
     return <p>Failed to load.</p>;
   }
 
-  if (!data || !sales) {
+  if (!data && !sales) {
     return <p>Loading...</p>;
   }
 
@@ -79,3 +84,26 @@ const LastSalesPage = () => {
 };
 
 export default LastSalesPage;
+
+export async function getStaticProps(context) {
+  const response = await fetch(
+    'https://nextjs-course-18143-default-rtdb.asia-southeast1.firebasedatabase.app/sales.json'
+  );
+  const data = await response.json();
+
+  const transformedSales = [];
+  for (const key in data) {
+    transformedSales.push({
+      id: key,
+      username: data[key].username,
+      volume: data[key].volume,
+    });
+  }
+
+  return {
+    props: {
+      sales: transformedSales,
+    },
+    revalidate: 10,
+  };
+}
