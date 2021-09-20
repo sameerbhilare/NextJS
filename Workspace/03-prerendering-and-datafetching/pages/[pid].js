@@ -2,6 +2,15 @@ import path from 'path'; // from nodejs (backend)
 import fs from 'fs'; // from nodejs (backend)
 
 const ProductDetailPage = (props) => {
+  /*
+    The dynamic pre-generation does not finish instantly. 
+    So therefore instead when using fallback: true in getStaticPaths,
+    we should be prepared to return a fallback state in our component.
+    */
+  if (!props.loadedProduct) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <>
       <h1>{props.loadedProduct.title}</h1>
@@ -41,14 +50,20 @@ export async function getStaticPaths() {
           pid: 'p2', // 'pid' is dynamic path segment ([pid].js)
         },
       },
-      {
-        params: {
-          pid: 'p3', // 'pid' is dynamic path segment ([pid].js)
-        },
-      },
     ],
 
-    fallback: false,
+    // helpful when we have lot of pages to regenerate
+    /*
+        fallback: true tell NextJS that even pages which are not listed above, 
+        (So even parameter values for the PID parameter which are not listed above) 
+        can be valid values that should be loaded when they are visited.
+        But they're not pre-generated, instead they're generated just in time when a request reaches the server.
+
+        And that allows us to pre-generate highly visited pages, 
+        and postpone the generation to less frequented pages to the server, 
+        so that they are only pre-generated when they're needed.
+    */
+    fallback: true,
   };
 }
 
