@@ -1,31 +1,59 @@
 import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const LastSalesPage = () => {
   const [sales, setSales] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  //   const [isLoading, setIsLoading] = useState(false);
+
+  const { data, error } = useSWR(
+    'https://nextjs-course-18143-default-rtdb.asia-southeast1.firebasedatabase.app/sales.json',
+    fetcher
+  );
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(
-      'https://nextjs-course-18143-default-rtdb.asia-southeast1.firebasedatabase.app/sales.json'
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const transformedSales = [];
-        for (const key in data) {
-          transformedSales.push({
-            id: key,
-            username: data[key].username,
-            volume: data[key].volume,
-          });
-        }
+    console.log({ data, error });
+    if (data) {
+      const transformedSales = [];
+      for (const key in data) {
+        transformedSales.push({
+          id: key,
+          username: data[key].username,
+          volume: data[key].volume,
+        });
+      }
 
-        setSales(transformedSales);
-        setIsLoading(false);
-      });
-  }, []);
+      setSales(transformedSales);
+    }
+  }, [data]);
 
-  if (isLoading) {
+  //   useEffect(() => {
+  //     setIsLoading(true);
+  //     fetch(
+  //       'https://nextjs-course-18143-default-rtdb.asia-southeast1.firebasedatabase.app/sales.json'
+  //     )
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         const transformedSales = [];
+  //         for (const key in data) {
+  //           transformedSales.push({
+  //             id: key,
+  //             username: data[key].username,
+  //             volume: data[key].volume,
+  //           });
+  //         }
+
+  //         setSales(transformedSales);
+  //         setIsLoading(false);
+  //       });
+  //   }, []);
+
+  if (error) {
+    return <p>Failed to load.</p>;
+  }
+
+  if (!data || !sales) {
     return <p>Loading...</p>;
   }
 
@@ -35,9 +63,9 @@ const LastSalesPage = () => {
     it will just pre-render initial state of this page which is <p>No data yet!</p>
     So this is what we see when we => View Page Source
   */
-  if (!sales) {
-    return <p>No data yet!</p>;
-  }
+  //   if (!sales) {
+  //     return <p>No data yet!</p>;
+  //   }
 
   return (
     <ul>
