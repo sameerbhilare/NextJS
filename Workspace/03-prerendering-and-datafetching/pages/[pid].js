@@ -21,6 +21,13 @@ const ProductDetailPage = (props) => {
 
 export default ProductDetailPage;
 
+async function getData() {
+  const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
+  const jsonData = fs.readFileSync(filePath);
+  const data = JSON.parse(jsonData);
+  return data;
+}
+
 /*
   IMPORTANT - 
   Next.js by defult pre-renders each page.
@@ -36,9 +43,15 @@ export default ProductDetailPage;
   via getStaticPaths which tells Next.js which concrete instances of this dynamic page must be pre-generated.
 */
 export async function getStaticPaths() {
+  const data = await getData();
+  const ids = data.products.map((p) => p.id);
+  const params = ids.map((id) => ({ params: { pid: id } }));
+
   return {
+    paths: params,
     // this tells Next.js that this dynamic page ([pid].js) should be pre-generated
     // three times with these three values as a value for this dynamic segment identifier.
+    /*
     paths: [
       {
         params: {
@@ -50,7 +63,7 @@ export async function getStaticPaths() {
           pid: 'p2', // 'pid' is dynamic path segment ([pid].js)
         },
       },
-    ],
+    ],*/
 
     // helpful when we have lot of pages to regenerate
     /*
@@ -63,7 +76,7 @@ export async function getStaticPaths() {
         and postpone the generation to less frequented pages to the server, 
         so that they are only pre-generated when they're needed.
     */
-    fallback: true,
+    fallback: false,
   };
 }
 
@@ -73,9 +86,7 @@ export async function getStaticProps(context) {
 
   const productId = params.pid;
 
-  const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
-  const jsonData = fs.readFileSync(filePath);
-  const data = JSON.parse(jsonData);
+  const data = await getData();
 
   const product = data.products.find((p) => p.id === productId);
 
