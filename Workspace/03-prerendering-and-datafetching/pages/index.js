@@ -1,12 +1,16 @@
 import path from 'path'; // from nodejs (backend)
 import fs from 'fs'; // from nodejs (backend)
 
+import Link from 'next/link';
+
 function HomePage(props) {
   const { products } = props;
   return (
     <ul>
       {products.map((p) => (
-        <li key={p.id}>{p.title}</li>
+        <li key={p.id}>
+          <Link href={`/${p.id}`}>{p.title}</Link>
+        </li>
       ))}
     </ul>
   );
