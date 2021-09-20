@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Layout from '../components/layout/layout';
 import '../styles/globals.css';
 
@@ -17,6 +18,12 @@ import '../styles/globals.css';
 function MyApp({ Component, pageProps }) {
   return (
     <Layout>
+      {/*  Next.js injects the content which we add between these 'Head' tags 
+           into the real 'head' part of the rendered page.
+           Adding common head related information. */}
+      <Head>
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+      </Head>
       <Component {...pageProps} />
     </Layout>
   );
