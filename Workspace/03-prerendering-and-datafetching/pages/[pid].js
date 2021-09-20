@@ -76,7 +76,7 @@ export async function getStaticPaths() {
         and postpone the generation to less frequented pages to the server, 
         so that they are only pre-generated when they're needed.
     */
-    fallback: false,
+    fallback: true,
   };
 }
 
@@ -89,6 +89,13 @@ export async function getStaticProps(context) {
   const data = await getData();
 
   const product = data.products.find((p) => p.id === productId);
+
+  if (!product) {
+    // when product is not found, show 404 error page
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
