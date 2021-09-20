@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { getFilteredEvents } from '../../helpers/api-util';
@@ -90,6 +91,12 @@ const FilteredEventsPage = (props) => {
 
   return (
     <>
+      {/*  Next.js injects the content which we add between these 'Head' tags 
+      into the real 'head' part of the rendered page. */}
+      <Head>
+        <title>Filtered Events</title>
+        <meta name='description' content={`All events for ${numMonth}/${numYear}`} />
+      </Head>
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </>

@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { getAllEvents } from '../../helpers/api-util';
 import EventList from '../../components/events/event-list';
 import EventsSearch from '../../components/events/events-search';
@@ -14,6 +15,12 @@ const AllEventsPage = (props) => {
 
   return (
     <>
+      {/*  Next.js injects the content which we add between these 'Head' tags 
+      into the real 'head' part of the rendered page. */}
+      <Head>
+        <title>All Events</title>
+        <meta name='description' content='Find a lot of great events that allow you to evolve...' />
+      </Head>
       <EventsSearch onSearch={findEventsHandler} />
       <EventList items={events} />
     </>
