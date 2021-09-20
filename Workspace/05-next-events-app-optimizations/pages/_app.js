@@ -20,8 +20,11 @@ function MyApp({ Component, pageProps }) {
     <Layout>
       {/*  Next.js injects the content which we add between these 'Head' tags 
            into the real 'head' part of the rendered page.
-           Adding common head related information. */}
+           Adding common head related information.
+           In case of conflict, the more specific page head information takes preference. */}
       <Head>
+        <title>Next Events</title>
+        <meta name='description' content='NextJS Events' />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
       <Component {...pageProps} />
