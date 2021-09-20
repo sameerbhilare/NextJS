@@ -27,6 +27,21 @@ export async function getStaticProps(context) {
   const jsonData = fs.readFileSync(filePath);
   const data = JSON.parse(jsonData);
 
+  if (!data) {
+    return {
+      // to redirect to another route
+      redirect: {
+        destination: '/some-route',
+      },
+    };
+  }
+
+  if (data.products.length === 0) {
+    return {
+      notFound: true, //true => will show 404 error page instead of normal page
+    };
+  }
+
   // must return object with 'props' key
   return {
     props: {
