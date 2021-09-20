@@ -2,16 +2,16 @@ import EventSummary from '../../components/event-detail/event-summary';
 import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
 import ErrorAlert from '../../components/ui/error-alert';
-import { getEventById, getAllEvents } from '../../helpers/api-util';
+import { getEventById, getFeaturedEvents } from '../../helpers/api-util';
 
 const EventDetailPage = (props) => {
   const event = props.selectedEvent;
 
   if (!event) {
     return (
-      <ErrorAlert>
-        <p>No Event Found!</p>
-      </ErrorAlert>
+      <div className='center'>
+        <p>Loading...</p>
+      </div>
     );
   }
 
@@ -35,12 +35,16 @@ export default EventDetailPage;
 
 // for which eventIds it should pre-render this page
 export async function getStaticPaths() {
-  const allEvents = await getAllEvents();
+  // pre-rendering only featured events to avoid pages generation for all events (could be 100s)
+  const allEvents = await getFeaturedEvents();
   const paramEvents = allEvents.map((event) => ({ params: { eventId: event.id } }));
 
   return {
     paths: paramEvents,
-    fallback: false, // bcz we did specify all possible paths so for unknown events, nextjs will show 404
+    // this tells nextjs that there might be more pages than we pre generated here
+    // Then it will try to dynamically generate the page
+    // if it encounters a page which was not pre-generated before.
+    fallback: true, // or 'blocking'
   };
 }
 
@@ -55,5 +59,6 @@ export async function getStaticProps(context) {
     props: {
       selectedEvent: event,
     },
+    revalidate: 30, // every 30 seconds we regenereate this page for new incoming request
   };
 }
