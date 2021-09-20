@@ -11,6 +11,8 @@ export default UserProfilePage;
     getServerSideProps runs for every incoming request. so 'revalidate' does not make sense here
 */
 export async function getServerSideProps(context) {
+  console.log({ context }); // printed on server logs not on client
+  const { params, req, res } = context;
   return {
     props: {
       username: 'Sameer',
