@@ -22,6 +22,7 @@ export default HomePage;
   Both these steps are run at build time
 */
 export async function getStaticProps(context) {
+  console.log('Regenerating...');
   const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
   const jsonData = fs.readFileSync(filePath);
   const data = JSON.parse(jsonData);
@@ -31,5 +32,15 @@ export async function getStaticProps(context) {
     props: {
       products: data.products,
     },
+    /* time in seconds that Next.js should wait until it re-generates this page.
+    e.g. for every incoming request to this page, it should be re-generated unless,
+    it's less than 10 seconds ago that it was last re-generated.
+    
+    IMP => During development, the page will be re-generated for every request, 
+    no matter what you set 'revalidate'. 
+    So with the development server, we will always see the latest page with the latest data,
+    and this will always run again. But in production this number will matter.
+    */
+    revalidate: 10,
   };
 }
