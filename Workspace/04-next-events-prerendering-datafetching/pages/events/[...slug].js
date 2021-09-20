@@ -63,7 +63,7 @@ const FilteredEventsPage = (props) => {
 
 export default FilteredEventsPage;
 
-// server side rendering
+// server side rendering - for every incoming request
 export async function getServerSideProps(context) {
   const { params } = context;
 
