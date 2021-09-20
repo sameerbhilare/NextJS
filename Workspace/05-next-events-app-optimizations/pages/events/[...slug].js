@@ -35,10 +35,26 @@ const FilteredEventsPage = (props) => {
     }
   }, [data]);
 
+  let pageHeadData = (
+    <>
+      {/*  Next.js injects the content which we add between these 'Head' tags 
+into the real 'head' part of the rendered page. */}
+      <Head>
+        <title>Filtered Events</title>
+        <meta name='description' content='A list of filtered events!' />
+      </Head>
+    </>
+  );
+
   if (!loadedEvents) {
     // this component is loaded twice, first - as a call to this route and second time because of useRouter
     // for first load, the useRouter does not have required data (router.query.slug)
-    return <p className='center'>Loading...</p>;
+    return (
+      <>
+        {pageHeadData}
+        <p className='center'>Loading...</p>
+      </>
+    );
   }
 
   const filteredYear = filterData[0];
@@ -47,6 +63,17 @@ const FilteredEventsPage = (props) => {
   // convert to number
   const numYear = +filteredYear;
   const numMonth = +filteredMonth;
+
+  pageHeadData = (
+    <>
+      {/*  Next.js injects the content which we add between these 'Head' tags 
+into the real 'head' part of the rendered page. */}
+      <Head>
+        <title>Filtered Events</title>
+        <meta name='description' content={`All events for ${numMonth}/${numYear}`} />
+      </Head>
+    </>
+  );
 
   if (
     isNaN(numYear) ||
@@ -59,6 +86,7 @@ const FilteredEventsPage = (props) => {
   ) {
     return (
       <>
+        {pageHeadData}
         <ErrorAlert>
           <p>Invalid Filter. Please adjust your values!</p>
         </ErrorAlert>
@@ -77,6 +105,7 @@ const FilteredEventsPage = (props) => {
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <>
+        {pageHeadData}
         <ErrorAlert>
           <p>No events found for the chosen filter!</p>
         </ErrorAlert>
@@ -91,12 +120,7 @@ const FilteredEventsPage = (props) => {
 
   return (
     <>
-      {/*  Next.js injects the content which we add between these 'Head' tags 
-      into the real 'head' part of the rendered page. */}
-      <Head>
-        <title>Filtered Events</title>
-        <meta name='description' content={`All events for ${numMonth}/${numYear}`} />
-      </Head>
+      {pageHeadData}
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </>
