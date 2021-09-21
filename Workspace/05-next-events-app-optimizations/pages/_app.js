@@ -3,7 +3,7 @@ import Layout from '../components/layout/layout';
 import '../styles/globals.css';
 
 /*
-  "_app.js" is the root component of Next.js application.
+  "_app.js" is the root component (root div inside <body> element ) of Next.js application.
   Nextjs passes the Component and pageProps props to this root component.
   'Component' is a prop that holds the actual page contents that should be rendered.
   So it will be different whenever we switch a page and 
