@@ -9,12 +9,25 @@ function HomePage() {
 
     const enteredEmail = emailRef.current.value;
     const enteredFeedback = feedbackRef.current.value;
+
+    const reqBody = { email: enteredEmail, text: enteredFeedback };
+
+    // call backend API
+    fetch('/api/feedback', {
+      method: 'POST',
+      body: JSON.stringify(reqBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   return (
     <div>
       <h1>The Home Page</h1>
-      <form>
+      <form onSubmit={submitFormHandler}>
         <div>
           <label htmlFor='email'>Your Email Address</label>
           <input type='email' id='email' ref={emailRef} />
