@@ -2,23 +2,7 @@
     Request to ourdomain.com/api/newsletter will reach here.
     Any code we write in here, will never end up in any client side code bundle.
 */
-import { MongoClient } from 'mongodb';
-
-async function connectDatabase() {
-  // connect to mongodb
-  const client = await MongoClient.connect('mongodb://localhost:27017/nextjs-events');
-  return client;
-}
-
-async function insertDocument(client, document) {
-  const db = client.db();
-
-  // select collection in which you want to insert document
-  const emailsCollections = db.collection('emails');
-  // insert document in db
-  const result = await emailsCollections.insertOne(document);
-  return result;
-}
+import { connectDatabase, insertDocument } from '../../helpers/db-utils';
 
 // The default exported function(handler) will receive http request and response objects
 // inside this function we can write any server side code.
@@ -44,7 +28,7 @@ async function handler(req, res) {
     }
 
     try {
-      const result = await insertDocument(client, { email: userEmail });
+      const result = await insertDocument(client, 'emails', { email: userEmail });
       // close connection
       client.close();
     } catch (err) {
