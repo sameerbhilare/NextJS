@@ -48,7 +48,11 @@ async function handler(req, res) {
 
     // select collection in which you want to find documents
     // find() returns a cursor, so we need to use toArray()
-    const allComments = await db.collection('comments').find().sort({ _id: -1 }).toArray();
+    const allComments = await db
+      .collection('comments')
+      .find({ eventId: eventId })
+      .sort({ _id: -1 })
+      .toArray();
 
     res.status(200).json({ comments: allComments });
     return;
