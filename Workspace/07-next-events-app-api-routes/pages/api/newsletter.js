@@ -4,6 +4,22 @@
 */
 import { MongoClient } from 'mongodb';
 
+async function connectDatabase() {
+  // connect to mongodb
+  const client = await MongoClient.connect('mongodb://localhost:27017/nextjs-events');
+  return client;
+}
+
+async function insertDocument(client, document) {
+  const db = client.db();
+
+  // select collection in which you want to insert document
+  const emailsCollections = db.collection('emails');
+  // insert document in db
+  const result = await emailsCollections.insertOne(document);
+  return result;
+}
+
 // The default exported function(handler) will receive http request and response objects
 // inside this function we can write any server side code.
 async function handler(req, res) {
@@ -17,18 +33,24 @@ async function handler(req, res) {
     }
 
     console.log({ userEmail });
+
     // connect to mongodb
-    const client = await MongoClient.connect('mongodb://localhost:27017/nextjs-events');
-    const db = client.db();
+    let client;
+    try {
+      client = await connectDatabase();
+    } catch (err) {
+      res.status(500).json({ message: 'Connecting to DB failed!' });
+      return;
+    }
 
-    // select collection in which you want to insert document
-    const emailsCollections = db.collection('emails');
-    // insert document in db
-    const result = await emailsCollections.insertOne({ email: userEmail });
-    console.log(result);
-
-    // close connection
-    client.close();
+    try {
+      const result = await insertDocument(client, { email: userEmail });
+      // close connection
+      client.close();
+    } catch (err) {
+      res.status(500).json({ message: 'Inserting Data failed!' });
+      return;
+    }
 
     res.status(201).json({ message: 'Signed up!' });
   }
