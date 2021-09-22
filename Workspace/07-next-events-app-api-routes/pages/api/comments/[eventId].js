@@ -28,7 +28,6 @@ async function handler(req, res) {
     }
 
     const newComment = { email, name, text, eventId };
-    console.log(newComment);
 
     const db = client.db();
 
@@ -39,6 +38,7 @@ async function handler(req, res) {
     const result = await commentsCollections.insertOne(newComment);
     newComment.id = result.insertedId;
 
+    console.log(newComment);
     res.status(201).json({ message: 'Added comment', comment: newComment });
     return;
   }
