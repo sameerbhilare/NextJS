@@ -22,9 +22,9 @@ async function handler(req, res) {
     const db = client.db();
 
     // select collection in which you want to insert document
-    const meetupCollections = db.collection('emails');
+    const emailsCollections = db.collection('emails');
     // insert document in db
-    const result = await meetupCollections.insertOne({ email: userEmail });
+    const result = await emailsCollections.insertOne({ email: userEmail });
     console.log(result);
 
     // close connection
