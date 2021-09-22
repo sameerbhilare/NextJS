@@ -1,5 +1,5 @@
 /* 
-    Request to ourdomain.com/api/feedback will reach here.
+    Request to ourdomain.com/api/newsletter will reach here.
     Any code we write in here, will never end up in any client side code bundle.
 */
 
