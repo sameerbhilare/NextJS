@@ -44,11 +44,13 @@ async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    const dummyList = [
-      { id: 'c1', name: 'Sameer', text: 'First comment!' },
-      { id: 'c2', name: 'Max', text: 'Second comment!' },
-    ];
-    res.status(200).json({ comments: dummyList });
+    const db = client.db();
+
+    // select collection in which you want to find documents
+    // find() returns a cursor, so we need to use toArray()
+    const allComments = await db.collection('comments').find().sort({ _id: -1 }).toArray();
+
+    res.status(200).json({ comments: allComments });
     return;
   }
 
