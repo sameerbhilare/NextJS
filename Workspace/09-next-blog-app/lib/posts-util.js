@@ -24,7 +24,7 @@ function getPostData(fileName) {
     content: content,
   };
 
-  return postsData;
+  return postData;
 }
 
 export function getAllPosts() {

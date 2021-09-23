@@ -1,42 +1,19 @@
 import AllPosts from '../../components/posts/all-posts';
+import { getAllPosts } from '../../lib/posts-util';
 
-const DUMMY_POSTS = [
-  {
-    slug: 'getting-started-with-nextjs',
-    title: 'Getting Started with NextJS',
-    image: 'getting-started-nextjs.png',
-    excerpt:
-      'NextJS is the Rect framework for production - it makes building fullstack React apps and ships with buit-in SSR.',
-    date: '2022-02-10',
-  },
-  {
-    slug: 'getting-started-with-nextjs2',
-    title: 'Getting Started with NextJS',
-    image: 'getting-started-nextjs.png',
-    excerpt:
-      'NextJS is the Rect framework for production - it makes building fullstack React apps and ships with buit-in SSR.',
-    date: '2022-02-10',
-  },
-  {
-    slug: 'getting-started-with-nextjs3',
-    title: 'Getting Started with NextJS',
-    image: 'getting-started-nextjs.png',
-    excerpt:
-      'NextJS is the Rect framework for production - it makes building fullstack React apps and ships with buit-in SSR.',
-    date: '2022-02-10',
-  },
-  {
-    slug: 'getting-started-with-nextjs4',
-    title: 'Getting Started with NextJS',
-    image: 'getting-started-nextjs.png',
-    excerpt:
-      'NextJS is the Rect framework for production - it makes building fullstack React apps and ships with buit-in SSR.',
-    date: '2022-02-10',
-  },
-];
-
-function AllPostsPage() {
-  return <AllPosts posts={DUMMY_POSTS} />;
+function AllPostsPage(props) {
+  return <AllPosts posts={props.posts} />;
 }
 
 export default AllPostsPage;
+
+export async function getStaticProps() {
+  const allPosts = getAllPosts();
+
+  return {
+    props: {
+      posts: allPosts,
+    },
+    //revalidate: 1800, // regenerate at most after 30min, though not required
+  };
+}
