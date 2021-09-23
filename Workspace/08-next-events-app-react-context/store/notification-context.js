@@ -18,6 +18,7 @@ export function NotificationContextProvider(props) {
 
   const [activeNotification, setActiveNotification] = useState();
 
+  // to automatically hide the (success or error) notification after 3 seconds
   useEffect(() => {
     if (
       activeNotification &&
@@ -27,6 +28,8 @@ export function NotificationContextProvider(props) {
         setActiveNotification(null);
       }, 3000);
 
+      // cleanup in case if useEffect reruns before the timer went off,
+      // so that we don't have multiple ongoing timers at the same time.
       return () => {
         clearTimeout(timer);
       };
