@@ -1,3 +1,5 @@
+import Hero from '../components/home-page/hero';
+
 function HomePage() {
   /*
     1. Hero
@@ -6,7 +8,6 @@ function HomePage() {
   return (
     <>
       <Hero />
-      <FeaturedPosts />
     </>
   );
 }
