@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 
+// Context for managing our notifications
+
 const NotificationContext = createContext({
   notification: null, // { title, message, status }
   showNotification: function (notificationData) {},
