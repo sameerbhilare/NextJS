@@ -20,7 +20,7 @@ class MyDocument extends Document {
 
           <NextScript />
 
-          {/* 'overlays' div added to use React Portals to portal our modals or overlays to this element. */}
+          {/* 'notifications' div added to use React Portals to portal our modals or overlays to this element. */}
           <div id='notifications'></div>
         </body>
       </Html>
