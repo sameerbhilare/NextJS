@@ -10,11 +10,11 @@ module.exports = (phase) => {
     };
   }
 
-  // for prod
+  // FOR PROD
   return {
     env: {
       mongodb_connection_string:
-        'mongodb+srv://nextjs-user:YroHp4vUyBXhtQSq@cluster0.zdoxp.mongodb.net/nextjs-blog?retryWrites=true&w=majority',
+        'mongodb+srv://<USERNAME>:<PASSWORD>@cluster0.zdoxp.mongodb.net/<DB_NAME>?retryWrites=true&w=majority',
     },
   };
 };
