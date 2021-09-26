@@ -23,7 +23,7 @@ async function handler(req, res) {
     // connect
     let client;
     try {
-      client = await MongoClient.connect('mongodb://localhost:27017/nextjs-blog');
+      client = await MongoClient.connect(process.env.mongodb_connection_string);
     } catch (err) {
       res.status(500).json({ message: 'Connecting to DB failed!' });
       return;
