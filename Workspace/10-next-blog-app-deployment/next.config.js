@@ -14,7 +14,7 @@ module.exports = (phase) => {
   return {
     env: {
       mongodb_connection_string:
-        'mongodb+srv://<USERNAME>:<PASSWORD>@cluster0.zdoxp.mongodb.net/<DB_NAME>?retryWrites=true&w=majority',
+        'mongodb+srv://nextjs-user:YroHp4vUyBXhtQSq@cluster0.zdoxp.mongodb.net/nextjs-blog?retryWrites=true&w=majority',
     },
   };
 };
