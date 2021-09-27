@@ -22,6 +22,14 @@ async function handler(req, res) {
   try {
     const collections = db.collection('users');
 
+    const existingUser = await collections.findOne({ email: email });
+
+    if (existingUser) {
+      res.status(422).json({ message: 'User already exists!' });
+      client.close();
+      return;
+    }
+
     const hashedPassword = await hashPassword(password);
     // insert document in db
     const result = await collections.insertOne({ email: email, password: hashedPassword });
@@ -29,6 +37,7 @@ async function handler(req, res) {
     res.status(201).json({ message: 'Created User!' });
   } catch (error) {
     res.status(500).json({ message: 'Inserting Data failed!' });
+    client.close();
     return;
   }
   // close connection
