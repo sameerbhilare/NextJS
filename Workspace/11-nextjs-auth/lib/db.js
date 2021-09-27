@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-export function connectToDatabase() {
+export async function connectToDatabase() {
   // connect
   let client;
   try {

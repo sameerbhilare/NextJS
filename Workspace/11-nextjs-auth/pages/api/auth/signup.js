@@ -1,11 +1,15 @@
 import { hashPassword } from '../../../lib/auth';
 import { connectToDatabase } from '../../../lib/db';
 
-function handler(req, res) {
+async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return;
+  }
+
   const data = req.body;
   const { email, password } = data;
 
-  if (!email || !email.includes('@') || !password || !password.trim().length() < 7) {
+  if (!email || !email.includes('@') || !password || password.trim().length < 7) {
     res.status(422).json({ message: 'Invalid username or password.' });
     return;
   }
@@ -18,7 +22,7 @@ function handler(req, res) {
   try {
     const collections = db.collection('users');
 
-    const hashedPassword = hashPassword(password);
+    const hashedPassword = await hashPassword(password);
     // insert document in db
     const result = await collections.insertOne({ email: email, password: hashedPassword });
 
