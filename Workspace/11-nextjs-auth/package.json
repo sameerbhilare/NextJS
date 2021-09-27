@@ -9,6 +9,7 @@
     "export": "next export"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "gray-matter": "^4.0.3",
     "mongodb": "^4.1.2",
     "next": "10.0.6",
