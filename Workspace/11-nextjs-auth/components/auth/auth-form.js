@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { signIn } from 'next-auth/client';
 import classes from './auth-form.module.css';
 
 async function createUser(email, password) {
@@ -32,13 +33,23 @@ function AuthForm() {
   async function submitHandler(event) {
     event.preventDefault();
 
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
     if (isLogin) {
       // log user in
+      const result = await signIn('credentials', {
+        redirect: false, // do not redirect user in case of failure
+        email,
+        password,
+      });
+
+      console.log(result);
+      if (!result.error) {
+        // set some auth state
+      }
     } else {
       // signup
-
-      const email = emailRef.current.value;
-      const password = passwordRef.current.value;
 
       // validation
 
